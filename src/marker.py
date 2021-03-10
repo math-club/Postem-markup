@@ -2,7 +2,7 @@ import textwrap
 import time
 
 from data import Config
-from utils import capitalize, join
+from utils import capitalize, join, to_roman
 
 
 class Alias:
@@ -10,8 +10,16 @@ class Alias:
     def abdridged_date() -> str:
         return time.strftime("%d/%m/%y")
 
+    def century(nb: str) -> str:
+        return to_roman(int(nb))
+
     def line_numbering(nb: str) -> str:
         return f"(l.{nb})"
+
+
+def paragraph(text: str) -> str:
+    return text
+
 
 @capitalize
 def complex_definition(definition: str,
