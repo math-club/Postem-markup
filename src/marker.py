@@ -7,7 +7,7 @@ from utils import capitalize, join, to_roman
 
 class Alias:
 
-    def abdridged_date() -> str:
+    def abriged_date() -> str:
         return time.strftime("%d/%m/%y")
 
     def century(nb: str) -> str:
