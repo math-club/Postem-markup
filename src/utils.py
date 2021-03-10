@@ -1,9 +1,14 @@
 from typing import Callable, Iterable
 
+from data import Config
+
 
 def capitalize(func: Callable) -> Callable:
     def wrapper(*args) -> str:
-        return func(*args).capitalize()
+        if Config.capitalize:
+            return func(*args).capitalize()
+        else:
+            return func(*args)
 
     return wrapper
 
