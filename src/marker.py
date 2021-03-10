@@ -23,6 +23,9 @@ class Inline:
                           explanation: str) -> str:
         return f"{definition}{Config.simple_definition_separator}{explanation}"
 
+    def line_break() -> str:
+        return Config.line_break
+
 
 class Multiline:
 
@@ -36,7 +39,7 @@ class Multiline:
                            *justifications) -> str:
         header = f"{definition}{Config.complex_def_sep}{explanation}"
         justification = join(f"\n{Config.indent}{Config.complex_just_beg}",
-                              justifications)
+                             justifications)
 
         return f"{header}{justification}"
 
