@@ -2,7 +2,7 @@ import re
 
 
 inline_marks = {
-    r"_date": "Alias.abdridged_date",
+    r"_date": "Alias.abriged_date",
     r"_([\d]+)e": "Alias.century",
     r"_([\d]+)": "Alias.line_numbering"
 }
