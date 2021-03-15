@@ -3,7 +3,7 @@
 class Config:
     indent = " "*2
     line_break = "\n"*1
-    
+
     capitalize = True
 
     conclusion_beg = "-> "
