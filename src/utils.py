@@ -15,7 +15,7 @@ def capitalize(func: Callable) -> Callable:
 
 def join(sep: str,
          iterable: Iterable) -> str:
-    return f"{sep}{sep.join(iterable)}"
+    return "{sep}{sep.join(iterable)}"
 
 
 def to_roman(nb: int) -> str:
