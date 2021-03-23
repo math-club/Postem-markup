@@ -46,4 +46,4 @@ def to_roman(nb: int) -> str:
             if nb <= 0:
                 break
 
-    return "".join(i for i in roman_nb(nb))
+    return "".join(roman_nb(nb))

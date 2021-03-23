@@ -21,7 +21,7 @@ class Inline:
 
     def simple_definition(definition: str,
                           explanation: str) -> str:
-        return f"{definition}{Config.simple_definition_separator}{explanation}"
+        return f"{definition}{Config.simple_def_sep}{explanation}"
 
     def line_break() -> str:
         return Config.line_break
