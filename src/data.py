@@ -6,10 +6,10 @@ class Config:
 
     capitalize = True
 
-    conclusion_beg = "-> "
+    conclusion_beg = "=> "
 
     complex_def_sep = " -> "
-    complex_just_beg = "\-> "
+    complex_just_beg = r"\-> "
 
     simple_def_sep = "->"
 

@@ -37,7 +37,7 @@ def to_roman(nb: int) -> str:
 
     def roman_nb(nb: int) -> Generator[int, None, None]:
         for r in roman.keys():
-            x, y = divmod(nb, r)
+            x = nb//r
 
             yield roman[r]*x
 
