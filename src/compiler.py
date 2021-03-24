@@ -5,7 +5,8 @@ functions useful for compilation.
 import re
 from typing import Any, Callable, Dict, Generator, Tuple
 
-from marker import Alias, Inline, Multiline
+from .marker import Alias, Inline, Multiline
+from .logger import logger
 
 
 Regex = str
@@ -30,18 +31,23 @@ def compiles(iterable: Dict[Regex, Any]) -> Dict[re.Pattern, Any]:
                 for key, value in iterable.items()}
 
 
-def parse_inline(text: MarkedText) -> Generator[str, None, None]:
+def parse_inline(text: MarkedText) -> str:
+    output = ""
     patterns = compiles(inline_marks)
-    for line in text.split("\n"):
+
+    for nb, line in enumerate(text.split("\n")):
         for pattern, mark in patterns.items():
             for matchobj in pattern.finditer(line):
                 args = matchobj.groups()
 
-                line = (line[:matchobj.start()]
-                        + mark(*args)
-                        + line[matchobj.end():])
+                parsed_line = (line[:matchobj.start()]
+                               + mark(*args)
+                               + line[matchobj.end():])
 
-        yield line
+        logger.debug(f"line {nb} parsed.")   # TODO: write better description.
+        output += f"{parsed_line}\n"
+
+    return output
 
 
 STATEMENTS = """
@@ -52,7 +58,4 @@ expr::expl::test
 """
 
 if __name__ == "__main__":
-    for line in parse_inline(STATEMENTS):
-        print(line)
-
-    print("\n".join(parse_inline(STATEMENTS)))
+    print(parse_inline(STATEMENTS))

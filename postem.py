@@ -4,7 +4,11 @@ __version__ = "Postem 0.1"
 __author__ = ["Timéo Arnouts"]
 
 import argparse
+import logging
 import sys
+
+from src.compiler import parse_inline
+from src.logger import file_handler, stream_handler
 
 
 parser = argparse.ArgumentParser(description="Postem")
@@ -20,7 +24,11 @@ parser.add_argument("-t", "--terminal",
 
 parser.add_argument("-v", "--verbose",
                     action="store_true",
-                    help="display the output in terminal and exit")
+                    help="display logs")  # TODO: write better description.
+
+parser.add_argument("-d", "--debug",
+                    action="store_true",
+                    help="set debug mode")  # TODO: write better description.
 
 parser.add_argument("-V", "--version",
                     action="store_true",
@@ -33,7 +41,19 @@ if __name__ == "__main__":
     if args.version:
         print(__version__)
         sys.exit()
-    elif args.terminal:
-        print("Ouput in terminal", args.file)
     else:
-        print("Output", args.file)
+        input_text = open(args.file, "r").read()
+
+        level = logging.DEBUG if args.debug else logging.INFO
+
+        file_handler.setLevel(level)
+        stream_handler.setLevel(level)
+
+        output = parse_inline(input_text)
+
+        if args.terminal:
+            print(output)
+        else:
+            with open(f"{args.file}.out", "w") as f:
+                f.write(output)
+

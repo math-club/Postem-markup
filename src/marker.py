@@ -2,9 +2,9 @@
 
 import time
 
-from data import Config
-import parser
-from utils import capitalize, join, to_roman
+from .data import Config
+from .parser import parse_title
+from .utils import capitalize, join, to_roman
 
 
 class Alias:
@@ -64,7 +64,7 @@ class Multiline:
 
         return f"{header}{explanations}"
 
-    @parser.parse_title
+    @parse_title
     @capitalize
     def title(text: str,
               level: int) -> str:

@@ -3,7 +3,7 @@
 
 from typing import Any, Callable, Iterable, Generator
 
-from data import Config
+from .data import Config
 
 
 def capitalize(func: Callable) -> Callable:
