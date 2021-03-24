@@ -31,10 +31,13 @@ def compiles(iterable: Dict[Regex, Any]) -> Dict[re.Pattern, Any]:
                 for key, value in iterable.items()}
 
 
-def parse_inline(text: str) -> Generator[str, None, None]:
+def parse_inline(text: str,
+                 verbose: bool) -> Generator[str, None, None]:
     patterns = compiles(inline_marks)
 
-    for nb, line in enumerate(text.split("\n")):
+    for nb, line in enumerate(text.split("\n"), 1):
+        parsed_line = line
+
         for pattern, mark in patterns.items():
             for matchobj in pattern.finditer(line):
                 args = matchobj.groups()
@@ -43,16 +46,20 @@ def parse_inline(text: str) -> Generator[str, None, None]:
                                + mark(*args)
                                + line[matchobj.end():])
 
-        logger.debug(f"line {nb} parsed.")   # TODO: write better description.
+                if verbose:
+                    logger.info(f"line {nb} :: "
+                                f"mark {mark.__name__} parsed.")
+
         yield parsed_line
 
 
-def parse_multine(lines: Generator) -> str:
+def parse_multine(lines: Generator, verbose: bool) -> str:
     return "\n".join(lines)
 
 
-def parse(text: MarkedText) -> str:
-    return parse_multine(parse_inline(text))
+def parse(text: MarkedText, verbose: bool = False) -> str:
+    return parse_multine(parse_inline(text, verbose),
+                         verbose)
 
 
 STATEMENTS = """

@@ -44,11 +44,16 @@ if __name__ == "__main__":
     else:
         input_text = open(args.file, "r").read()
 
-        level = logging.DEBUG if args.debug else logging.INFO
-        file_handler.setLevel(level)
-        stream_handler.setLevel(level)        
+        if args.verbose:
+            level = logging.INFO
 
-        output = parse(input_text)
+            if args.debug:
+                level = logging.DEBUG
+
+            file_handler.setLevel(level)
+            stream_handler.setLevel(level)
+
+        output = parse(input_text, args.verbose)
 
         if args.terminal:
             print(output)
