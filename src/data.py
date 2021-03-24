@@ -12,6 +12,8 @@ class Config:
 
     date_format: str = "%d/%m/%y"
 
+    century_suffix: str = "e"
+
     capitalize: bool = True
 
     conclusion_beg: str = "=> "

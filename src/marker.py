@@ -15,7 +15,7 @@ class Alias:
         return time.strftime(Config.date_format)
 
     def century(nb: str) -> str:
-        return to_roman(int(nb))
+        return f"{to_roman(int(nb))}{Config.century_suffix}"
 
     def line_numbering(nb: str) -> str:
         return f"(l.{nb})"
