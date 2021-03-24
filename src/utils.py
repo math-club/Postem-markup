@@ -1,4 +1,4 @@
-from typing import Callable, Iterable
+from typing import Callable, Iterable, Generator
 
 from data import Config
 
@@ -35,7 +35,7 @@ def to_roman(nb: int) -> str:
         1: "I"
     }
 
-    def roman_nb(nb):
+    def roman_nb(nb: int) -> Generator[int, None, None]:
         for r in roman.keys():
             x, y = divmod(nb, r)
 

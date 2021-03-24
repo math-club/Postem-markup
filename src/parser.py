@@ -27,7 +27,7 @@ def compiles(iterable: Dict[Regex, Any]) -> Dict[Pattern, Any]:
                 for regex, _ in iterable.items()}
 
 
-def parse_inline(text: MarkedText) -> Generator:
+def parse_inline(text: MarkedText) -> Generator[str, None, None]:
     patterns = compiles(inline_marks)
     for nb, line in enumerate(text.split("\n")):
         for pattern, mark in patterns.items():
