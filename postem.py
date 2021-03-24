@@ -7,7 +7,7 @@ import argparse
 import logging
 import sys
 
-from src.compiler import parse_inline
+from src.compiler import parse
 from src.logger import file_handler, stream_handler
 
 
@@ -45,15 +45,13 @@ if __name__ == "__main__":
         input_text = open(args.file, "r").read()
 
         level = logging.DEBUG if args.debug else logging.INFO
-
         file_handler.setLevel(level)
-        stream_handler.setLevel(level)
+        stream_handler.setLevel(level)        
 
-        output = parse_inline(input_text)
+        output = parse(input_text)
 
         if args.terminal:
             print(output)
         else:
             with open(f"{args.file}.out", "w") as f:
                 f.write(output)
-

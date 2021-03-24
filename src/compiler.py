@@ -31,8 +31,7 @@ def compiles(iterable: Dict[Regex, Any]) -> Dict[re.Pattern, Any]:
                 for key, value in iterable.items()}
 
 
-def parse_inline(text: MarkedText) -> str:
-    output = ""
+def parse_inline(text: str) -> Generator[str, None, None]:
     patterns = compiles(inline_marks)
 
     for nb, line in enumerate(text.split("\n")):
@@ -45,9 +44,15 @@ def parse_inline(text: MarkedText) -> str:
                                + line[matchobj.end():])
 
         logger.debug(f"line {nb} parsed.")   # TODO: write better description.
-        output += f"{parsed_line}\n"
+        yield parsed_line
 
-    return output
+
+def parse_multine(lines: Generator) -> str:
+    return "\n".join(lines)
+
+
+def parse(text: MarkedText) -> str:
+    return parse_multine(parse_inline(text))
 
 
 STATEMENTS = """
@@ -58,4 +63,4 @@ expr::expl::test
 """
 
 if __name__ == "__main__":
-    print(parse_inline(STATEMENTS))
+    print(parse_multine(parse_inline(STATEMENTS)))
