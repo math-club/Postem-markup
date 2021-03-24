@@ -1,21 +1,29 @@
+"""This module contains the parameters used for the generation of
+Postem text.
+"""
+
+from typing import Tuple
 
 
 class Config:
-    indent = " "*2
-    line_break = "\n"*1
+    indent: str = " "*2
+    tabulation: str = " "*4
+    line_break: str = "\n"*1
 
-    capitalize = True
+    date_format: str = "%d/%m/%y"
 
-    conclusion_beg = "=> "
+    capitalize: bool = True
 
-    complex_def_sep = " -> "
-    complex_just_beg = r"\-> "
+    conclusion_beg: str = "=> "
 
-    simple_def_sep = "->"
+    complex_def_sep: str = " -> "
+    complex_just_beg: str = r"\-> "
 
-    text_block_sep = " -> "
+    simple_def_sep: str = "->"
 
-    title_levels = (
+    text_block_sep: str = " -> "
+
+    title_levels: Tuple[str] = (
         "#",
         "*",
         "=",

@@ -1,10 +1,16 @@
-from typing import Callable, Iterable, Generator
+"""This module contains functions that are useful for the other modules.
+"""
+
+from typing import Any, Callable, Iterable, Generator
 
 from data import Config
 
 
 def capitalize(func: Callable) -> Callable:
-    def wrapper(*args) -> str:
+    """Returns the text given with the first letter capitalized if
+    Conifg.capitalize is true.
+    """
+    def wrapper(*args: Any):
         if Config.capitalize:
             return func(*args).capitalize()
         else:
@@ -15,11 +21,15 @@ def capitalize(func: Callable) -> Callable:
 
 def join(sep: str,
          iterable: Iterable) -> str:
+    """Same behavior as str.join but the first element of the given iterable
+    is prefixed with the given separator.
+    """
     return "{sep}{sep.join(iterable)}"
 
 
 def to_roman(nb: int) -> str:
-    roman = {
+    """Returns the given number as string in roman numerals."""
+    romans = {
         1000: "M",
         900: "CM",
         500: "D",
@@ -35,13 +45,13 @@ def to_roman(nb: int) -> str:
         1: "I"
     }
 
-    def roman_nb(nb: int) -> Generator[int, None, None]:
-        for r in roman.keys():
-            x = nb//r
+    def roman_nb(nb: int) -> Generator[str, None, None]:
+        for roman in romans.keys():
+            x = nb//roman
 
-            yield roman[r]*x
+            yield romans[roman]*x
 
-            nb -= r*x
+            nb -= roman*x
 
             if nb <= 0:
                 break

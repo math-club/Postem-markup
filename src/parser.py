@@ -1,51 +1,13 @@
-
-import re
-from typing import Any, Callable, Dict, Generator, Tuple
-
-from marker import Alias, Inline, Multiline
-
-
-Regex = str
-Pattern = re.Pattern
-MarkedText = str
-
-inline_marks: Dict[Regex, Callable] = {
-    r"_date": Alias.abriged_date,
-    r"_([\d]+)e": Alias.century,
-    r"_([\d]+)": Alias.line_numbering,
-    r"([^\n]+)[ \t]*::[ \t]*([^\n]+)": Inline.simple_definition
-}
-
-multiline_marks: Dict[Regex, Callable] = {
-    r"^\.\.[ \t]*([^\n]+)$": Multiline.conclusion,
-    r"^&{1,6}[ \t]*([^\n]+)$": Multiline.title
-}
-
-
-def compiles(iterable: Dict[Regex, Any]) -> Dict[Pattern, Any]:
-    return {re.compile(regex): _
-                for regex, _ in iterable.items()}
-
-
-def parse_inline(text: MarkedText) -> Generator[str, None, None]:
-    patterns = compiles(inline_marks)
-    for nb, line in enumerate(text.split("\n")):
-        for pattern, mark in patterns.items():
-            for matchobj in pattern.finditer(line):
-                args = matchobj.groups()
-
-                line = line[:matchobj.start()] + mark(*args) + line[matchobj.end():]
-
-        yield line
-
-
-STATEMENTS = """
-hello _date world _10e
-expr::expl::test
-
-.
+"""This module contains decorators to provide additional parsing to the
+arguments of the functions contained in the marker module.
 """
 
-if __name__ == "__main__":
-    for line in parse_inline(STATEMENTS):
-        print(line)
+from typing import Any, Callable
+
+
+def parse_title(func: Callable) -> Callable:
+    """A decorator to determine the level of a title."""
+    def wrapper(title_level: str, text: str):
+        return func(text, len(title_level))
+
+    return wrapper
