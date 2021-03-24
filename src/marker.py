@@ -1,6 +1,5 @@
 """This module contains all the functions used for text formatting."""
 
-import textwrap
 import time
 
 from data import Config
