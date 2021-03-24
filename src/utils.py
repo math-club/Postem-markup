@@ -8,7 +8,7 @@ from data import Config
 
 def capitalize(func: Callable) -> Callable:
     """Returns the text given with the first letter capitalized if
-    Conifg.capitalize is true.
+    Config.capitalize is true.
     """
     def wrapper(*args: Any):
         if Config.capitalize:
