@@ -29,6 +29,9 @@ class Inline:
 
     def line_break() -> str:
         return Config.line_break
+    
+    def text(string: str) -> str:
+        return string
 
 
 class Multiline:

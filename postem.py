@@ -32,7 +32,7 @@ parser.add_argument("-d", "--debug",
 
 parser.add_argument("-V", "--version",
                     action="store_true",
-                    help="Print the Postem version number and exit.")
+                    help="print the Postem version number and exit.")
 
 
 if __name__ == "__main__":

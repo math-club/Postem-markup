@@ -15,8 +15,9 @@ MarkedText = str
 inline_marks: Dict[Regex, Callable] = {
     r"_date": Alias.abriged_date,
     r"_([\d]+)e": Alias.century,
-    r"_([\d]+)": Alias.line_numbering,
-    r"([^\n]+)[ \t]*::[ \t]*([^\n]+)": Inline.simple_definition
+    r"_([\d]+)[^e]": Alias.line_numbering,
+    r"([^\n]+)[ \t]*::[ \t]*([^\n]+)": Inline.simple_definition,
+    # r"([\S\s]*)": Inline.text,
 }
 
 multiline_marks: Dict[Regex, Callable] = {
@@ -36,21 +37,26 @@ def parse_inline(text: str,
     patterns = compiles(inline_marks)
 
     for nb, line in enumerate(text.split("\n"), 1):
-        parsed_line = line
+        line_chunck = []
 
         for pattern, mark in patterns.items():
             for matchobj in pattern.finditer(line):
                 args = matchobj.groups()
 
-                parsed_line = (line[:matchobj.start()]
-                               + mark(*args)
-                               + line[matchobj.end():])
+                # line_chunck.append(line[:matchobj.start()])
+                line_chunck.append(mark(*args))
+                line_chunck.append(line[matchobj.end():])
+
+                logger.debug(mark(*args))
+                # parsed_line = (line[:matchobj.start()]
+                #                + mark(*args)
+                #                + line[matchobj.end():])
 
                 if verbose:
                     logger.info(f"line {nb} :: "
                                 f"mark {mark.__name__} parsed.")
 
-        yield parsed_line
+        yield "".join(line_chunck)
 
 
 def parse_multine(lines: Generator, verbose: bool) -> str:
@@ -70,4 +76,4 @@ expr::expl::test
 """
 
 if __name__ == "__main__":
-    print(parse_multine(parse_inline(STATEMENTS)))
+    print(parse(STATEMENTS))
