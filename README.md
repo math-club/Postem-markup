@@ -29,11 +29,18 @@ text "." "=" text
 century_alias ::= "_"numeric"e"
 ```
 
-#### Date alias
+#### Line alias
 
 ```bnf
-date_alias ::= "_"numeric<any ASCII character except "e">
+line_alias ::= "_"numeric<any ASCII character except "e">
 ```
+
+#### Date alias
+
+```bnf
+date_alias ::= "_date"
+```
+
 ### Text formatting
 
 #### Title
