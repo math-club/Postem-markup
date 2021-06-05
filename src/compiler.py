@@ -3,8 +3,10 @@ functions useful for compilation.
 """
 
 import re
+from re import Pattern
 from typing import Any, Callable, Dict, Generator, Tuple
 
+from .data import Config
 from .marker import Alias, Inline, Multiline
 from .logger import logger
 
@@ -12,21 +14,24 @@ from .logger import logger
 Regex = str
 MarkedText = str
 
+text = r"[^\n]"
+numeric = r"\d"
+space = r"[ \t]"
+
 inline_marks: Dict[Regex, Callable] = {
-    r"_date": Alias.abriged_date,
-    r"_([\d]+)e": Alias.century,
-    r"_([\d]+)[^e]": Alias.line_numbering,
-    r"([^\n]+)[ \t]*::[ \t]*([^\n]+)": Inline.simple_definition,
-    # r"([\S\s]*)": Inline.text,
+    "_date": Alias.abriged_date,
+    fr"_({numeric}+){Config.century_suffix}": Alias.century,
+    fr"_({numeric}+)[^{Config.century_suffix}]": Alias.line_numbering,
+    r"({text}+){space}*::{space}*({text}+)": Inline.simple_definition,
 }
 
 multiline_marks: Dict[Regex, Callable] = {
-    r"^\.\.[ \t]*([^\n]+)$": Multiline.conclusion,
-    r"^(&{1,6})[ \t]*([^\n]+)$": Multiline.title
+    r"^\.\.{space}*({text}*)$": Multiline.conclusion,
+    r"^(&{1,6}){space}*({text}+)$": Multiline.title
 }
 
 
-def compiles(iterable: Dict[Regex, Any]) -> Dict[re.Pattern, Any]:
+def compiles(iterable: Dict[Regex, Any]) -> Dict[Pattern, Any]:
     """Returns the given dictionary with these compiled keys."""
     return {re.compile(key): value
                 for key, value in iterable.items()}
